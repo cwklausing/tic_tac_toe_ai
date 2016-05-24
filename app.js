@@ -1,4 +1,12 @@
 //Tic Tac Toe AI Game!
+
+$(function(){
+	$('div').on('click', function(){
+		alert('click!');
+		State();
+	})
+})
+
 var State = function(old) {
 	this.turn;
 	this.result = null;
