@@ -7,6 +7,55 @@ $(function(){
 	})
 })
 
+//Constructs the AI player, takes in level of intelligence
+var AI = function(difficulty) {
+	var levelOfIntelligence = difficulty;
+	var game = {};
+	function minimaxValue(state){
+
+	}
+
+	function blindMove(turn) {
+
+	}
+
+	function masterMove(turn) {
+
+	}
+
+	//method to specify the game ai player will play
+	this.plays = function(_game) {
+		game = _game;
+	}
+
+	this.notify = function(turn) {
+		switch(levelOfIntelligence) {
+			case "blind": blindMove(turn);
+			break;
+			case "master": masterMove;
+			break; 
+		}
+	}
+}
+
+var AIAction = function(pos) {
+	this.movePosition = pos;
+	//the minimax value of the state the action will create
+	this.minimaxValue = 0;
+	this.applyTo = function(state) {
+		var next = new State(state);
+
+		next.board[this.movePosition] = state.turn;
+
+		if(state.turn === '0') {
+			next.oMovesCount++;
+		}
+		next.advanceTurn();
+		return next;
+	}
+}
+
+//Constructs the game state
 var State = function(old) {
 	this.turn;
 	this.result = null;
