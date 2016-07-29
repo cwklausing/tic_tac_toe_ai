@@ -6,16 +6,42 @@ $(function(){
 		State();
 	})
 })
+//-----------------GAME CONSTRUCTION-------------------//
+var Game = function(autoPlayer) {
+	//initialize the ai player for the game
+	this.ai = autoPlayer;
+	//initialize the game current state
+	this.currentState = new State();
+	//Define empty board
+	this.currentState.board = ['E', 'E', 'E',
+							   'E', 'E', 'E'
+							   'E', 'E', 'E'];
+    //X always plays first
+    this.currentState.turn = "X";
 
+    //initialize game status to beginning
+    this.status = "beginning";
+    this.advanceTo = function(_state) {
+    	this.currentState = _state;
+    	if(_state.isTerminal()) {
+    		this.status = "ended";
+
+    		if(_state.result === "X won") {
+    			ui.switchViewTo("won");
+    		} else if (_state.result === "O won") {
+    			
+    		}
+    	}
+    }
+}
+
+
+//-----------------AI Construction---------------------//
 //Constructs the AI player, takes in level of intelligence
 var AI = function(difficulty) {
 	var levelOfIntelligence = difficulty;
 	var game = {};
 	function minimaxValue(state){
-
-	}
-
-	function blindMove(turn) {
 
 	}
 
@@ -28,16 +54,12 @@ var AI = function(difficulty) {
 		game = _game;
 	}
 
-	this.notify = function(turn) {
-		switch(levelOfIntelligence) {
-			case "blind": blindMove(turn);
-			break;
-			case "master": masterMove;
-			break; 
-		}
+	this.notify = function() {
+		masterMove(turn);
 	}
 }
 
+//Constructs an action the AI could make
 var AIAction = function(pos) {
 	this.movePosition = pos;
 	//the minimax value of the state the action will create
@@ -53,6 +75,24 @@ var AIAction = function(pos) {
 		next.advanceTurn();
 		return next;
 	}
+}
+
+//Public method that makes rule sorting AIAction ascending
+AIAction.ASCENDING = function(firstAction, secondAction) {
+	if(firstAction.minimaxValue < secondAction.minimaxValue) {
+		//Indicates firstAction goes before secondAction
+		return -1;
+	} else if (firstAction.minimaxValue > secondAction.minimaxValue) {
+		//Indicates secondAction goes before firstAction
+		return 1;
+	} else {
+		//Indicates tie
+		return 0;
+	}
+}
+
+AIAction.DESCENDING = function(firstAction, secondAction) {
+	if(firstAction.minimaxValue)
 }
 
 //Constructs the game state
