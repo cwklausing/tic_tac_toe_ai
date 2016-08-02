@@ -29,10 +29,29 @@ var Game = function(autoPlayer) {
     		if(_state.result === "X won") {
     			ui.switchViewTo("won");
     		} else if (_state.result === "O won") {
-    			
-    		}
+    			ui.switchViewTo("lost");
+    		} else {
+					ui.switchViewTo("draw");
+				}
     	}
+			//the game is still running
+			else {
+				if(this.currentState.turn === "X") {
+					ui.switchViewTo("human");
+				} else {
+					ui.switchViewTo("robot");
+					//Notify AI player its turn is up
+					this.ai.notify("O");
+				}
+			}
     }
+		//Starts the game
+		this.start = function() {
+			if(this.status = "beginning") {
+				this.advanceTo(this.currentState);
+				this.status = "running";
+			}
+		}
 }
 
 
